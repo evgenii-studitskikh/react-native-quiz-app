@@ -1,0 +1,3 @@
+rootProject.name = 'ReactNativeQuizAppIOS'
+
+include ':app'
