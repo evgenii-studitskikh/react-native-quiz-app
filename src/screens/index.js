@@ -1,12 +1,17 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { createDrawerNavigator, createAppContainer } from 'react-navigation';
 
 import HomeScreen from './Home';
 
-const RootStack = createStackNavigator(
+const RootStack = createDrawerNavigator(
   {
-    Home: HomeScreen
+    Home: {
+      screen: HomeScreen,
+      navigationOptions: {
+        title: 'Quiz'
+      }
+    },
   },
   {
     initialRouteName: 'Home',
