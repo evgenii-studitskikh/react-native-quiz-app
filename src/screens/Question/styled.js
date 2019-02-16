@@ -36,7 +36,7 @@ export const Question = styled.Text`
 export const Answer = styled.Text`
   margin-left: 10;
   font-size: 12;
-  color: ${({ selected }) => selected ? '#5EC7DC' : '#000000' };
+  color: ${({ color }) => color};
 `;
 
 export const CheckButtonText = styled.Text`

@@ -48,7 +48,7 @@ export default class QuestionScreen extends React.Component {
         text: 'This is the second question',
         answers: [
           '1',
-          '2',
+          '2dfhjdshfjsdhfjsdhfj fjsdh fdjsf jds fjsd hfjs fjsd hfjsd 28 3218 32183 71283 721 3',
           '3',
           '4',
           '5',
@@ -87,6 +87,10 @@ export default class QuestionScreen extends React.Component {
         selectedAnswer: undefined,
       });
     }
+  }
+
+  handleFinishPress = () => {
+    console.log('finish!')
   }
 
   render() {
@@ -137,21 +141,29 @@ export default class QuestionScreen extends React.Component {
             {questions[currentQuestion].answers.map((answer, index) => {
 
               let answerBackground = 'transparent';
+              let answerColor = '#000000';
 
               if (isCheckMode && selectedAnswer === index) {
                 answerBackground = selectedAnswer === questions[currentQuestion].correctAnswer
                   ? '#35DBA7'
-                  : '#FF7043'
+                  : '#FF7043';
+                answerColor = '#FFFFFF';
               }
               else if (isCheckMode && selectedAnswer !== index) {
                 answerBackground = index === questions[currentQuestion].correctAnswer
                   ? '#35DBA7'
                   : 'transparent'
+                answerColor = index === questions[currentQuestion].correctAnswer
+                  ? '#FFFFFF'
+                  : '#000000'
               }
               else {
                 answerBackground = selectedAnswer === index
                   ? '#F2F2F2'
                   : 'transparent'
+                answerColor = selectedAnswer === index
+                  ? '#33BFD8'
+                  : '#000000'
               }
 
               return (
@@ -159,6 +171,7 @@ export default class QuestionScreen extends React.Component {
                   full
                   key={index}
                   activeOpacity={1}
+                  disabled={isCheckMode}
                   onPress={() => this.handleAnswerPress(index)}
                   style={{
                     backgroundColor: answerBackground,
@@ -167,9 +180,8 @@ export default class QuestionScreen extends React.Component {
                     justifyContent: 'flex-start'
                   }}
                 >
-                  <Answer 
-                    selected={selectedAnswer === index}
-                    correct={selectedAnswer === questions[currentQuestion].correctAnswer}
+                  <Answer
+                    color={answerColor}
                   >
                     {answer}
                   </Answer>
@@ -187,13 +199,22 @@ export default class QuestionScreen extends React.Component {
               }
               <Button 
                 rounded
-                onPress={isCheckMode ? this.handleNextPress : this.handleCheckPress}
+                onPress={isCheckMode 
+                  ? currentQuestion + 1 === questions.length
+                    ? this.handleFinishPress 
+                    : this.handleNextPress 
+                  : this.handleCheckPress
+                }
                 style={{
                   backgroundColor: '#33BFD8'
                 }}
               >
                 <CheckButtonText>
-                  {isCheckMode ? 'Next' : 'Check'}
+                  {isCheckMode 
+                    ? currentQuestion + 1 === questions.length
+                      ? 'Finish'
+                      : 'Next' 
+                    : 'Check'}
                 </CheckButtonText>
               </Button>
             </CheckContainer>
