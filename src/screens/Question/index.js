@@ -32,6 +32,8 @@ export default class QuestionScreen extends React.Component {
 
   state = {
     isCheckMode: false,
+    countdownValue: 12,
+    isCountdownPause: false,
     currentQuestion: 0,
     selectedAnswer: undefined,
     questions: [
@@ -76,7 +78,9 @@ export default class QuestionScreen extends React.Component {
 
   handleCheckPress = () => {
     this.setState({
-      isCheckMode: true
+      isCheckMode: true,
+      isCountdownPause: true,
+      isCountdownRefreshed: false,
     });
   }
 
@@ -84,6 +88,8 @@ export default class QuestionScreen extends React.Component {
     if (this.state.currentQuestion + 2 <= this.state.questions.length) {
       this.setState({
         isCheckMode: false,
+        isCountdownRefreshed: true,
+        isCountdownPause: false,
         currentQuestion: ++this.state.currentQuestion,
         selectedAnswer: undefined,
       });
@@ -94,13 +100,28 @@ export default class QuestionScreen extends React.Component {
     console.log('finish!')
   }
 
+  handleCountdownEnd = () => {
+
+    const {
+      currentQuestion,
+      questions
+    } = this.state;
+
+    currentQuestion + 1 === questions.length
+      ? this.handleFinishPress()
+      : this.handleNextPress()
+  }
+
   render() {
 
     const { 
       currentQuestion,
       questions,
       selectedAnswer,
-      isCheckMode
+      isCheckMode,
+      countdownValue,
+      isCountdownPause,
+      isCountdownRefreshed,
     } = this.state;
 
     return (
@@ -138,7 +159,10 @@ export default class QuestionScreen extends React.Component {
               {`${currentQuestion+1}. ${questions[currentQuestion].text}`}
             </Question>
             <Countdown
-              time={12}
+              time={countdownValue}
+              isPause={isCountdownPause}
+              onEnd={this.handleCountdownEnd}
+              isRefreshed={isCountdownRefreshed}
             />
           </QuestionContainer>
           <AnswersContainer>

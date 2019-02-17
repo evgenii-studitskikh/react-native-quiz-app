@@ -11,10 +11,45 @@ export default class Countdown extends React.Component {
 
   state = {
     time: this.props.time || 60,
-    isHurryUp: false
+    isHurryUp: false,
+  }
+
+  componentWillReceiveProps(nextProps) {
+
+    if (nextProps.isPause) {
+      clearInterval(this.interval);
+    }
+
+    if (nextProps.isRefreshed) {
+
+      this.setState({
+        time: this.props.time || 60
+      });
+      
+      this.startCounting();
+    }
   }
 
   componentDidMount() {
+    this.startCounting();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  startCounting = () => {
+    const {
+      onEnd,
+      time,
+    } = this.props;
+
+    const {
+      isPause
+    } = this.state;
+
+    clearInterval(this.interval);
+
     this.interval = setInterval(() => {
 
       this.setState({
@@ -22,7 +57,11 @@ export default class Countdown extends React.Component {
       });
 
       if (this.state.time <= 0) {
-        clearInterval(this.interval);
+        this.setState({
+          time
+        });
+
+        onEnd();
       }
 
       if (this.state.time <= 15) {
@@ -32,10 +71,6 @@ export default class Countdown extends React.Component {
       }
 
     }, 1000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
   }
 
   render() {
@@ -57,3 +92,7 @@ export default class Countdown extends React.Component {
     );
   }
 }
+
+Countdown.defaultProps = { 
+  onEnd: () => false,
+};
