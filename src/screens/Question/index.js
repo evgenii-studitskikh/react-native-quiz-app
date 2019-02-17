@@ -26,6 +26,7 @@ import {
   CheckButtonText,
   CheckStatusText
 } from './styled';
+import Countdown from '../../components/countdown';
 
 export default class QuestionScreen extends React.Component {
 
@@ -136,6 +137,9 @@ export default class QuestionScreen extends React.Component {
             <Question>
               {`${currentQuestion+1}. ${questions[currentQuestion].text}`}
             </Question>
+            <Countdown
+              time={12}
+            />
           </QuestionContainer>
           <AnswersContainer>
             {questions[currentQuestion].answers.map((answer, index) => {
