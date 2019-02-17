@@ -33,12 +33,6 @@ export const Question = styled.Text`
   margin-top: 20;
 `;
 
-export const Answer = styled.Text`
-  margin-left: 10;
-  font-size: 12;
-  color: ${({ color }) => color};
-`;
-
 export const CheckButtonText = styled.Text`
   font-size: 12;
   color: #FFFFFF;

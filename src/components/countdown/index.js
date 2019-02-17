@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import styled from 'styled-components';
 
 const CountdownText = styled.Text`
@@ -25,7 +25,7 @@ export default class Countdown extends React.Component {
       this.setState({
         time: this.props.time || 60
       });
-      
+
       this.startCounting();
     }
   }

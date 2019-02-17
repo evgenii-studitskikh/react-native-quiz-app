@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { 
   Container,
   Header,
@@ -22,11 +22,11 @@ import {
   AnswersContainer,
   CheckContainer,
   Question,
-  Answer,
   CheckButtonText,
   CheckStatusText
 } from './styled';
-import Countdown from '../../components/countdown';
+import Countdown from '../../components/Countdown';
+import Answer from '../../components/Answer';
 
 export default class QuestionScreen extends React.Component {
 
@@ -166,56 +166,17 @@ export default class QuestionScreen extends React.Component {
             />
           </QuestionContainer>
           <AnswersContainer>
-            {questions[currentQuestion].answers.map((answer, index) => {
-
-              let answerBackground = 'transparent';
-              let answerColor = '#000000';
-
-              if (isCheckMode && selectedAnswer === index) {
-                answerBackground = selectedAnswer === questions[currentQuestion].correctAnswer
-                  ? '#35DBA7'
-                  : '#FF7043';
-                answerColor = '#FFFFFF';
-              }
-              else if (isCheckMode && selectedAnswer !== index) {
-                answerBackground = index === questions[currentQuestion].correctAnswer
-                  ? '#35DBA7'
-                  : 'transparent'
-                answerColor = index === questions[currentQuestion].correctAnswer
-                  ? '#FFFFFF'
-                  : '#000000'
-              }
-              else {
-                answerBackground = selectedAnswer === index
-                  ? '#F2F2F2'
-                  : 'transparent'
-                answerColor = selectedAnswer === index
-                  ? '#33BFD8'
-                  : '#000000'
-              }
-
-              return (
-                <Button
-                  full
-                  key={index}
-                  activeOpacity={1}
-                  disabled={isCheckMode}
-                  onPress={() => this.handleAnswerPress(index)}
-                  style={{
-                    backgroundColor: answerBackground,
-                    borderBottomColor: '#F2F2F2',
-                    borderBottomWidth: 0.2,
-                    justifyContent: 'flex-start'
-                  }}
-                >
-                  <Answer
-                    color={answerColor}
-                  >
-                    {answer}
-                  </Answer>
-                </Button>
-              )
-            })}
+            {questions[currentQuestion].answers.map((answer, index) =>
+              <Answer
+                index={index}
+                key={index}
+                text={answer}
+                disabled={isCheckMode}
+                isCorrect={index === questions[currentQuestion].correctAnswer}
+                isSelected={index === selectedAnswer}
+                onPress={this.handleAnswerPress}
+              />
+            )}
           </AnswersContainer>
           {selectedAnswer >= 0 &&
             <CheckContainer>
